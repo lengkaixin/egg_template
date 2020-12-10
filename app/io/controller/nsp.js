@@ -24,7 +24,7 @@ class NspController extends Controller {
 
   async sendMsg() {
     const { ctx, app } = this;
-    const nsp = app.io.of('/ws');
+    const nsp = app.io.of('/');
     const message = ctx.args[0] || {};
     console.log('sendMsg', message);
     // 向客户端广播消息， 在客户端监听broadcast事件就可以获取消息了

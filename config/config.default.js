@@ -47,7 +47,7 @@ module.exports = appInfo => {
     init: {}, // passed to engine.io
     namespace: {
       // 命名空间（即如果有两个业务用到了socket，可以分别用不同的命名空间去管理，如果只用到一个写一个及可）
-      '/ws': {
+      '/': {
         connectionMiddleware: [
           // 'auth',
           'connection', // 这个是连接中间件， 只在 connection 的时候触发
@@ -76,3 +76,20 @@ module.exports = appInfo => {
     ...userConfig,
   };
 };
+
+/**
+ * nginx 配置
+ *
+    location /socket.io/ {
+      proxy_set_header Upgrade $http_upgrade;
+      proxy_set_header Connection "upgrade";
+      proxy_http_version 1.1;
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_set_header Host $host;
+      proxy_pass http://localhost:7001/socket.io/;
+
+      # http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_bind
+      # proxy_bind       $remote_addr transparent;
+    }
+ *
+ */
